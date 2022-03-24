@@ -7,18 +7,21 @@ import com.krayapp.maplocatorapplication.databinding.ActivityMainBinding
 import com.yandex.mapkit.Animation
 import com.yandex.mapkit.MapKitFactory
 import com.yandex.mapkit.geometry.Point
+import com.yandex.mapkit.location.LocationListener
 import com.yandex.mapkit.map.CameraPosition
 import com.yandex.mapkit.mapview.MapView
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(),MainView {
 
     private lateinit var mapView:MapView
+    private val presenter:MainPresenter = Presenter(this)
+    private val viewBinding:ActivityMainBinding by viewBinding()
     private val TARGET_LOCATION = Point(59.945933, 30.320045)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         MapKitFactory.setApiKey("4f9515fa-8a48-48c0-a24b-8dd64f08f47d")
         setContentView(R.layout.activity_main)
-        mapView = findViewById(R.id.mapview)
+        mapView = viewBinding.mapview
         mapInit()
     }
 
@@ -43,5 +46,9 @@ class MainActivity : AppCompatActivity() {
         mapView.onStop()
         MapKitFactory.getInstance().onStop()
         super.onStop()
+    }
+
+    override fun updateLocation() {
+        TODO("Not yet implemented")
     }
 }
