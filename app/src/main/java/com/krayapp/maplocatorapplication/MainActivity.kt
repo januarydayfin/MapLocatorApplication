@@ -11,25 +11,37 @@ import com.yandex.mapkit.map.CameraPosition
 import com.yandex.mapkit.mapview.MapView
 
 class MainActivity : AppCompatActivity() {
-    private val viewBinding: ActivityMainBinding by viewBinding()
 
+    private lateinit var mapView:MapView
+    private val TARGET_LOCATION = Point(59.945933, 30.320045)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        MapKitFactory.setApiKey("4f9515fa-8a48-48c0-a24b-8dd64f08f47d")
         setContentView(R.layout.activity_main)
+        mapView = findViewById(R.id.mapview)
         mapInit()
     }
 
     private fun mapInit() {
-        MapKitFactory.setApiKey("4f9515fa-8a48-48c0-a24b-8dd64f08f47d")
         MapKitFactory.initialize(this)
-        val mapView: MapView = viewBinding.mapview
-
         mapView
             .map
             .move(
                 CameraPosition(
-                Point(55.751574, 37.573856),
-                11.0f, 0.0f, 0.0f),
+                TARGET_LOCATION,
+                15.0f, 0.0f, 0.0f),
                 Animation(Animation.Type.SMOOTH,0f),null)
+    }
+
+    override fun onStart() {
+        MapKitFactory.getInstance().onStart()
+        mapView.onStart()
+        super.onStart()
+    }
+
+    override fun onStop() {
+        mapView.onStop()
+        MapKitFactory.getInstance().onStop()
+        super.onStop()
     }
 }
