@@ -1,5 +1,5 @@
 package com.krayapp.maplocatorapplication
 
 interface MainView {
-    fun updateLocation()
+    fun updateLocation(lat:Double, long:Double)
 }
